@@ -12,9 +12,9 @@ All assignments for the syduy group are in this repo
 - Follow this link to know how to fork a gthub repository <a href = "https://docs.github.com/en/get-started/quickstart/fork-a-repo">here</a>
 - Clone the forked. Run the following  in your terminal
 ```bash
-$ git clone https://github.com/**YOUR_GITUB_USERNAME**/GDSC-nodejs-study-group.git
+$ git clone https://github.com/**YOUR_GITUB_USERNAME**/GDSC-NodeJs-study-group-2021.git
 $ cd GDSC-nodejs-study-group
-$ git remote add upstream https://github.com/Ose-4g/GDSC-nodejs-study-group.git
+$ git remote add upstream https://github.com/DSC-Unilag/GDSC-NodeJs-study-group-2021.git
 $ npm install
 ```
 - To get latest updates from the original repository locally. run
