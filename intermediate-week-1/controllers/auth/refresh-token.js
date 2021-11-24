@@ -1,7 +1,6 @@
-const jwt = require('jsonwebtoken');
-const { verifyRefreshToken, generateAccessToken } = require('../../utils/tokenUtils')
+const { verifyRefreshToken, generateAccessToken } = require('../../utils/tokenUtils');
 
-const refreshAccessToken = async (req, res, next) => {
+const refreshAccessToken = async (req, res) => {
   /**
      * Takes a parameter 
      * refreshToken 
@@ -17,30 +16,29 @@ const refreshAccessToken = async (req, res, next) => {
      */
 
   try {
-   const { refreshToken } = req.body;
+    const { refreshToken } = req.body;
 
-   const { payload: refresh, expired } = verifyRefreshToken(refreshToken || '');
-   if (!refresh) {
-      res.status(403).send('Invalid token!!')
-   }
+    const { payload: refresh, expired } = verifyRefreshToken(refreshToken || '');
+    if (!refresh) {
+      res.status(403).send('Invalid token!!');
+    }
 
-   if (expired) {
-      res.status(403).send('Expired token!!')
-   }
+    if (expired) {
+      res.status(403).send('Expired token!!');
+    }
 
-   const { _id, email, name } = refresh;
-   // New access token
-   const accessToken = generateAccessToken(_id, email, name);
+    const { _id, email, name } = refresh;
+    // New access token
+    const accessToken = generateAccessToken(_id, email, name);
 
-   res.status(200).json({
+    res.status(200).json({
       accessToken,
-      refreshToken
-   })
-  
+      refreshToken,
+    });
   } catch (err) {
-   res.status(501).json({
-      err
-   })
+    res.status(501).json({
+      err,
+    });
   }
 };
 

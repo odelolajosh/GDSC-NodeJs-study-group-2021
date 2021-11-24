@@ -1,5 +1,5 @@
 const User = require('../models/User.js');
-const { verifyAccessToken } = require('../utils/tokenUtils.js')
+const { verifyAccessToken } = require('../utils/tokenUtils.js');
 
 exports.requireSignIn = async (req, res, next) => {
   try {
@@ -13,16 +13,16 @@ exports.requireSignIn = async (req, res, next) => {
     if (token && bearer === 'Bearer') {
       const { payload } = verifyAccessToken(token);
       if (!payload) throw new Error('Invalid Token');
-      
+
       req.user = await User.findById({ _id: payload._id });
       return next();
     }
 
-    throw new Error('Invalid authorization')
+    throw new Error('Invalid authorization');
   } catch (err) {
     res.status(401).json({
       error: 'Unauthorized user',
-      message: err.message
-    })
+      message: err.message,
+    });
   }
 };

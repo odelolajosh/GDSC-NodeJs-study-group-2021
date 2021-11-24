@@ -17,7 +17,7 @@ const login = async (req, res) => {
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) return res.status(400).send({ msg: 'Invalid login credentials' });
 
-    const name = user.firstName + " " + user.lastName;
+    const name = user.firstName + ' ' + user.lastName;
     const accessToken = generateAccessToken(user._id, user.email, name);
     const refreshToken = generateRefreshToken(user._id, user.email, name);
 
@@ -27,7 +27,7 @@ const login = async (req, res) => {
     });
   } catch (err) {
     res.status(501).json({
-      err
+      err,
     });
   }
 };
