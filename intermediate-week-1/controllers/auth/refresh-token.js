@@ -1,3 +1,6 @@
+const jwt = require('jsonwebtoken');
+const { verifyRefreshToken, generateAccessToken } = require('../../utils/tokenUtils')
+
 const refreshAccessToken = async (req, res, next) => {
   /**
      * Takes a parameter 
@@ -12,6 +15,33 @@ const refreshAccessToken = async (req, res, next) => {
         refreshToken: *********
      * }
      */
+
+  try {
+   const { refreshToken } = req.body;
+
+   const { payload: refresh, expired } = verifyRefreshToken(refreshToken || '');
+   if (!refresh) {
+      res.status(403).send('Invalid token!!')
+   }
+
+   if (expired) {
+      res.status(403).send('Expired token!!')
+   }
+
+   const { _id, email, name } = refresh;
+   // New access token
+   const accessToken = generateAccessToken(_id, email, name);
+
+   res.status(200).json({
+      accessToken,
+      refreshToken
+   })
+  
+  } catch (err) {
+   res.status(501).json({
+      err
+   })
+  }
 };
 
 module.exports = refreshAccessToken;
