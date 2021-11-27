@@ -1,7 +1,7 @@
 const User = require('../../models/User');
 const AppError = require('../../error/appError');
 const bcrypt = require('bcryptjs');
-const { createAccessToken } = require('../../utils/token');
+const { createAccessToken, createRefreshToken } = require('../../utils/token');
 
 const login = async (req, res, next) => {
   /*send a response with the following format if the login is successful
@@ -33,14 +33,13 @@ const login = async (req, res, next) => {
     return next(new AppError('Invalid email or password', 400));
   }
 
-  //generate an accessToken for the user.
+  //generate an accessToken and refresh token for the user.
   const accessToken = createAccessToken(user._id);
-
-  console.log(accessToken);
+  const refreshToken = await createRefreshToken(user._id, accessToken);
 
   res.status(200).json({
     accessToken,
-    refreshToken: '12345',
+    refreshToken: refreshToken.refreshToken,
   });
 };
 

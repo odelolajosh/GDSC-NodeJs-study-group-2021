@@ -1,3 +1,7 @@
+const Token = require('../../models/Token');
+const { createAccessToken } = require('../../utils/token');
+const AppError = require('../../error/appError');
+
 const refreshAccessToken = async (req, res, next) => {
   /**
      * Takes a parameter 
@@ -12,6 +16,26 @@ const refreshAccessToken = async (req, res, next) => {
         refreshToken: *********
      * }
      */
+
+  //get the refresh token
+  const { refreshToken } = req.body;
+
+  const token = await Token.findOne({ refreshToken });
+
+  if (!token) {
+    return next(new AppError('Token not found. Please log in again', 404));
+  }
+
+  const accessToken = createAccessToken(token.user);
+
+  token.accessToken = accessToken;
+
+  await token.save();
+
+  res.status(200).json({
+    accessToken,
+    refreshToken,
+  });
 };
 
 module.exports = refreshAccessToken;
