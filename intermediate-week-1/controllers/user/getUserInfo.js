@@ -8,6 +8,13 @@ const getUserInfo = async (req, res, next) => {
    *      email: *****************
    * }
    */
+  const { firstName, lastName, email } = req.user;
+
+  return res.status(200).json({
+    firstName,
+    lastName,
+    email,
+  });
 };
 
 module.exports = getUserInfo;
