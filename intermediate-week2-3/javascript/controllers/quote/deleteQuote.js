@@ -6,6 +6,7 @@ const deleteQuote = async (req, res, next) => {
   // gets a quote by id
   // populates the user field
   // it takes the quoteId in the request params
+  // it then deletes the quote
 
   const { quoteId } = req.params;
 

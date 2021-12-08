@@ -15,7 +15,7 @@ const getQuotes = async (req, res, next) => {
 
   //in case page or limit are less than 1 we make them 1.
   page = Math.max(1, page);
-  limit = Math.max(1, page);
+  limit = Math.max(1, limit);
 
   try {
     //get paginated result and sort in order of most recent

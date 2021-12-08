@@ -8,6 +8,7 @@ const morgan = require('morgan');
 //getting all routes
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
+const quoteRoutes = require('./routes/quote');
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.get('/', (req, res) => {
 //setting up all routers
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
+app.use('/quote', quoteRoutes);
 
 //for invalid route
 app.use((req, res, next) => {
