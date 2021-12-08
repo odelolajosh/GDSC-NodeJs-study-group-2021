@@ -30,8 +30,8 @@ const requireSignIn: RequestHandler = async (req, res, next) => {
     try {
       const user = await User.findById(id);
 
-      req.user = user as IUser; //normally this line would not work. thats why we used the custom.d.ts file. 
-      //try looking in it to see what we did. 
+      req.user = user as IUser; //normally this line would not work. thats why we used the custom.d.ts file.
+      //try looking in it to see what we did.
     } catch (error) {
       return next(error);
     }
