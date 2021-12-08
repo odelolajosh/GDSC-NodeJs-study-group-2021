@@ -16,12 +16,13 @@ const writeToFile = (a, b) => {
   // You will likely use the isPrime function above.
 };
 
-const getJoke = () => {
+const getJoke = async () => {
   // Using axios or any other method of your preference
   // make a get request to https://v2.jokeapi.dev/joke/Any?idRange=180
   // it returns a json object.
   // get the "joke" parameter in the json object.
   //return that value.
+  // you might need to use async await.
 };
 
 module.exports = {
