@@ -1,10 +1,10 @@
 const environment = process.env.NODE_ENV;
-import logger from '../utils/logger'
-import {Request, Response, NextFunction} from 'express'
+import logger from '../utils/logger';
+import { Request, Response, NextFunction } from 'express';
 import AppError from './appError';
 
 const errorHandler = (err: AppError, req: Request, res: Response, next: NextFunction) => {
-  const data:any = {
+  const data: any = {
     status: 'error',
     message: err.message,
   };
@@ -21,4 +21,4 @@ const errorHandler = (err: AppError, req: Request, res: Response, next: NextFunc
   res.status(err.statusCode).json(data);
 };
 
-export default errorHandler
+export default errorHandler;

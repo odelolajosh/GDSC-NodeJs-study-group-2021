@@ -1,4 +1,4 @@
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
 dotenv.config();
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
@@ -8,8 +8,8 @@ import morgan from 'morgan';
 
 //getting all routes
 import authRoutes from './routes/auth';
-import userRoutes from './routes/user'
-import quoteRoutes from './routes/quote'
+import userRoutes from './routes/user';
+import quoteRoutes from './routes/quote';
 
 const app = express();
 
@@ -41,4 +41,4 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 //error handler
 app.use(errorHandler);
 
-export default app
+export default app;

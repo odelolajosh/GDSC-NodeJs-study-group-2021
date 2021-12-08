@@ -1,12 +1,12 @@
-import {Schema, model,Model, Document, PopulatedDoc} from 'mongoose';
+import { Schema, model, Model, Document, PopulatedDoc } from 'mongoose';
 import { mongooseModels } from '../utils/constants';
 import { IUser } from './User';
 
 const { USER, TOKEN } = mongooseModels;
 
-export interface IToken extends Document{
-    refreshToken: string;
-    user: PopulatedDoc<IUser>;
+export interface IToken extends Document {
+  refreshToken: string;
+  user: PopulatedDoc<IUser>;
 }
 const tokenSchema = new Schema(
   {
@@ -24,4 +24,4 @@ const tokenSchema = new Schema(
   { timestamps: true }
 );
 
-export const Token:Model<IToken>  = model<IToken> (TOKEN, tokenSchema);
+export const Token: Model<IToken> = model<IToken>(TOKEN, tokenSchema);

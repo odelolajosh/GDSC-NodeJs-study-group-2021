@@ -1,4 +1,4 @@
-import * as winston from 'winston'
+import * as winston from 'winston';
 const { createLogger, transports, format } = winston;
 const { timestamp: timestampFn, combine, printf, colorize, prettyPrint } = format;
 

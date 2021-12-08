@@ -1,4 +1,4 @@
-import app from './app'
+import app from './app';
 import { connectToMongoDB } from './utils/connectToMongoDB';
 import logger from './utils/logger';
 

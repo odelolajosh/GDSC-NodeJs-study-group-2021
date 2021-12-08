@@ -1,7 +1,7 @@
-import AppError from "../error/appError";
-import jwt from 'jsonwebtoken'
-import User, {IUser} from '../models/User'
-import { RequestHandler } from "express";
+import AppError from '../error/appError';
+import jwt from 'jsonwebtoken';
+import User, { IUser } from '../models/User';
+import { RequestHandler } from 'express';
 
 const requireSignIn: RequestHandler = async (req, res, next) => {
   const authorization = req.headers.authorization;
@@ -32,11 +32,11 @@ const requireSignIn: RequestHandler = async (req, res, next) => {
 
       req.user = user as IUser;
     } catch (error) {
-      return next(error) 
+      return next(error);
     }
 
     next();
   });
 };
 
-export default requireSignIn
+export default requireSignIn;
