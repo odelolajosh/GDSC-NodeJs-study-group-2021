@@ -26,9 +26,13 @@ exports.requireSignIn = async (req, res, next) => {
 
     const { id } = decoded;
 
-    const user = await User.findById(id);
+    try {
+      const user = await User.findById(id);
 
-    req.user = user;
+      req.user = user;
+    } catch (error) {
+      return next(error);
+    }
 
     next();
   });
