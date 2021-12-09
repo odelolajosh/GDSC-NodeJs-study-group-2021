@@ -1,6 +1,8 @@
-const { verifyRefreshToken, generateAccessToken } = require('../../utils/tokenUtils');
+const Token = require('../../models/Token');
+const { createAccessToken } = require('../../utils/token');
+const AppError = require('../../error/appError');
 
-const refreshAccessToken = async (req, res) => {
+const refreshAccessToken = async (req, res, next) => {
   /**
      * Takes a parameter 
      * refreshToken 
@@ -15,31 +17,25 @@ const refreshAccessToken = async (req, res) => {
      * }
      */
 
-  try {
-    const { refreshToken } = req.body;
+  //get the refresh token
+  const { refreshToken } = req.body;
 
-    const { payload: refresh, expired } = verifyRefreshToken(refreshToken || '');
-    if (!refresh) {
-      res.status(403).send('Invalid token!!');
-    }
+  const token = await Token.findOne({ refreshToken });
 
-    if (expired) {
-      res.status(403).send('Expired token!!');
-    }
-
-    const { _id, email, name } = refresh;
-    // New access token
-    const accessToken = generateAccessToken(_id, email, name);
-
-    res.status(200).json({
-      accessToken,
-      refreshToken,
-    });
-  } catch (err) {
-    res.status(501).json({
-      err,
-    });
+  if (!token) {
+    return next(new AppError('Token not found. Please log in again', 404));
   }
+
+  const accessToken = createAccessToken(token.user);
+
+  token.accessToken = accessToken;
+
+  await token.save();
+
+  res.status(200).json({
+    accessToken,
+    refreshToken,
+  });
 };
 
 module.exports = refreshAccessToken;

@@ -1,28 +1,35 @@
-const User = require('../models/User.js');
-const { verifyAccessToken } = require('../utils/tokenUtils.js');
+const AppError = require('../error/appError');
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 
 exports.requireSignIn = async (req, res, next) => {
-  try {
-    const authorization = req.headers.authorization;
-    const [bearer, token] = authorization.split(' ');
+  const authorization = req.headers.authorization;
 
-    /**
-     * verify the token and verify if user is logged in in or not
-     * If user is logged in then call the next() function to go to the next middleware
-     */
-    if (token && bearer === 'Bearer') {
-      const { payload } = verifyAccessToken(token);
-      if (!payload) throw new Error('Invalid Token');
+  if (!authorization) {
+    return next(new AppError('Authentication is required', 401));
+  }
+  if (!String(authorization).startsWith('Bearer')) {
+    return next(new AppError('Please use bearer token', 400));
+  }
 
-      req.user = await User.findById({ _id: payload._id });
-      return next();
+  const [bearer, token] = authorization.split(' ');
+
+  /**
+   * verify the token and verify if user is logged in in or not
+   * If user is logged in then call the next() function to go to the next middleware
+   */
+
+  jwt.verify(token, process.env.JWT_SECRET, async function (err, decoded) {
+    if (err) {
+      next(err);
     }
 
-    throw new Error('Invalid authorization');
-  } catch (err) {
-    res.status(401).json({
-      error: 'Unauthorized user',
-      message: err.message,
-    });
-  }
+    const { id } = decoded;
+
+    const user = await User.findById(id);
+
+    req.user = user;
+
+    next();
+  });
 };

@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcrypt');
 const constants = require('../utils/constants');
+const bcrypt = require('bcryptjs');
 
 const { USER } = constants.mongooseModels;
 
@@ -62,6 +63,10 @@ userSchema.pre('save', async function (next) {
   } catch (err) {
     return next(err);
   }
+
+  //hash the password
+  this.password = await bcrypt.hash(this.password, 12);
+  this.passwordConfirm = null;
 
   next();
 });
